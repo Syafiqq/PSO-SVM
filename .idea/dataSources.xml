@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3848022285">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - stroke.mcrypt" uuid="4aca5104-b63d-453c-b2db-920dcffd4969">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/stroke.mcrypt</jdbc-url>
+    </data-source>
+  </component>
+</project>
