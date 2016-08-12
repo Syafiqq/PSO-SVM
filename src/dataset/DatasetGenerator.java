@@ -45,7 +45,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
     {
         final LinkedHashMap<Integer, ArrayList<Integer>> statusEncoder = super.encoder.getStatus();
         /*
-         * Get Status Size
+         * Get Dataset Testing Size
          * */
         String query = "SELECT data.status as 'id', COUNT (data.ROWID) AS 'count' FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Testing' LIMIT 1) GROUP BY data.status ORDER BY data.status ASC";
         int[] size = new int[super.dataset.getStatuses().length];
@@ -75,7 +75,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         final LinkedHashMap<ArrayList<Integer>, Integer> decoder = new LinkedHashMap<>(cumulativeSum);
 
         /*
-         * Get Type
+         * Get Dataset Testing
          * */
         query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Testing' LIMIT 1) ORDER BY data.status ASC";
         try(final Statement statement = this.dbComponent.connection.createStatement();
@@ -90,7 +90,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
                 depthDecoder.add(depthEncoder.get(1));
                 depthDecoder.add(depthEncoder.get(0));
 
-                testing[depthEncoder.get(0)][depthEncoder.get(1)] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), resultSet.getInt("status"));
+                testing[depthEncoder.get(0)][depthEncoder.get(1)] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")).get(0));
                 encoder.put(resultSet.getInt("id"), depthEncoder);
                 decoder.put(depthDecoder, resultSet.getInt("id"));
 
@@ -110,7 +110,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
     {
         final LinkedHashMap<Integer, ArrayList<Integer>> statusEncoder = super.encoder.getStatus();
         /*
-         * Get Status Size
+         * Get Dataset Training Size
          * */
         String query = "SELECT data.status as 'id', COUNT (data.ROWID) AS 'count' FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Training' LIMIT 1) GROUP BY data.status ORDER BY data.status ASC";
         int[] size = new int[super.dataset.getStatuses().length];
@@ -140,7 +140,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         final LinkedHashMap<ArrayList<Integer>, Integer> decoder = new LinkedHashMap<>(cumulativeSum);
 
         /*
-         * Get Type
+         * Get Dataset Training
          * */
         query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Training' LIMIT 1) ORDER BY data.status ASC";
         try(final Statement statement = this.dbComponent.connection.createStatement();
@@ -155,7 +155,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
                 depthDecoder.add(depthEncoder.get(1));
                 depthDecoder.add(depthEncoder.get(0));
 
-                trainings[depthEncoder.get(0)][depthEncoder.get(1)] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), resultSet.getInt("status"));
+                trainings[depthEncoder.get(0)][depthEncoder.get(1)] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")).get(0));
                 encoder.put(resultSet.getInt("id"), depthEncoder);
                 decoder.put(depthDecoder, resultSet.getInt("id"));
 
@@ -207,11 +207,11 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
                 statuses[resultSetIndex] = new Status(resultSet.getString("name"));
                 encoder.put(resultSet.getInt("id"), depth);
                 decoder.put(depth, resultSet.getInt("id"));
-
-                super.dataset.setStatuses(statuses);
-                super.encoder.setStatus(encoder);
-                super.decoder.setStatus(decoder);
             }
+
+            super.dataset.setStatuses(statuses);
+            super.encoder.setStatus(encoder);
+            super.decoder.setStatus(decoder);
         }
         catch(SQLException e)
         {
@@ -256,11 +256,11 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
                 types[resultSetIndex] = new Type(resultSet.getString("name"));
                 encoder.put(resultSet.getInt("id"), depth);
                 decoder.put(depth, resultSet.getInt("id"));
-
-                super.dataset.setTypes(types);
-                super.encoder.setType(encoder);
-                super.decoder.setType(decoder);
             }
+
+            super.dataset.setTypes(types);
+            super.encoder.setType(encoder);
+            super.decoder.setType(decoder);
         }
         catch(SQLException e)
         {
