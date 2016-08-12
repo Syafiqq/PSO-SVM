@@ -41,7 +41,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         runtime.gc();
     }
 
-    private void generateDataTesting()
+    @SuppressWarnings("Duplicates") private void generateDataTesting()
     {
         final LinkedHashMap<Integer, ArrayList<Integer>> statusEncoder = super.encoder.getStatus();
         /*
@@ -93,11 +93,11 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
                 testing[depthEncoder.get(0)][depthEncoder.get(1)] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")).get(0));
                 encoder.put(resultSet.getInt("id"), depthEncoder);
                 decoder.put(depthDecoder, resultSet.getInt("id"));
-
-                super.dataset.setTesting(testing);
-                super.encoder.setTesting(encoder);
-                super.decoder.setTesting(decoder);
             }
+
+            super.dataset.setTesting(testing);
+            super.encoder.setTesting(encoder);
+            super.decoder.setTesting(decoder);
         }
         catch(SQLException e)
         {
@@ -106,7 +106,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         }
     }
 
-    private void generateDataTraining()
+    @SuppressWarnings("Duplicates") private void generateDataTraining()
     {
         final LinkedHashMap<Integer, ArrayList<Integer>> statusEncoder = super.encoder.getStatus();
         /*
@@ -158,11 +158,10 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
                 trainings[depthEncoder.get(0)][depthEncoder.get(1)] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")).get(0));
                 encoder.put(resultSet.getInt("id"), depthEncoder);
                 decoder.put(depthDecoder, resultSet.getInt("id"));
-
-                super.dataset.setTraining(trainings);
-                super.encoder.setTraining(encoder);
-                super.decoder.setTraining(decoder);
             }
+            super.dataset.setTraining(trainings);
+            super.encoder.setTraining(encoder);
+            super.decoder.setTraining(decoder);
         }
         catch(SQLException e)
         {
