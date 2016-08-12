@@ -13,8 +13,8 @@ import java.util.Arrays;
  */
 public class Dataset
 {
-    private Stroke[][] training;
-    private Stroke[][] testing;
+    private Stroke[] training;
+    private Stroke[] testing;
     private Type[] types;
     private Status[] statuses;
 
@@ -26,22 +26,22 @@ public class Dataset
         this.statuses = null;
     }
 
-    public Stroke[][] getTraining()
+    public Stroke[] getTraining()
     {
         return training;
     }
 
-    public void setTraining(final Stroke[][] training)
+    public void setTraining(final Stroke[] training)
     {
         this.training = training;
     }
 
-    public Stroke[][] getTesting()
+    public Stroke[] getTesting()
     {
         return testing;
     }
 
-    public void setTesting(final Stroke[][] testing)
+    public void setTesting(final Stroke[] testing)
     {
         this.testing = testing;
     }

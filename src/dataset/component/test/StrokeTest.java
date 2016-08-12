@@ -4,8 +4,6 @@ import dataset.component.Stroke;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Muhammad Syafiq on 8/12/2016.
  * Email : Syafiq.rezpector@gmail.com

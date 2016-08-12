@@ -7,7 +7,7 @@ import database.sqlite.DBComponent;
  * Email : Syafiq.rezpector@gmail.com
  * GitHub : Syafiqq
  */
-public abstract class DatasetBuilder <TDataset extends Dataset, TDatasetConverterEncoder extends DatasetConverter<?>, TDatasetConverterDecoder extends DatasetConverter<?>>
+public abstract class DatasetBuilder<TDataset extends Dataset, TDatasetConverterEncoder extends DatasetConverter<?>, TDatasetConverterDecoder extends DatasetConverter<?>>
 {
     protected final TDataset dataset;
     protected final TDatasetConverterEncoder encoder;

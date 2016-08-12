@@ -1,16 +1,13 @@
 package dataset.test;
 
 import dataset.DatasetGenerator;
-import dataset.component.Type;
 import dataset.component.core.Dataset;
 import dataset.component.core.DatasetConverter;
 import main.Main;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
@@ -24,9 +21,9 @@ import java.util.LinkedHashMap;
     @Parameterized.Parameter
     private Dataset dataset;
     @Parameterized.Parameter
-    private DatasetConverter<LinkedHashMap<Integer, ArrayList<Integer>>> encoder;
+    private DatasetConverter<LinkedHashMap<Integer, Integer>> encoder;
     @Parameterized.Parameter
-    private DatasetConverter<LinkedHashMap<ArrayList<Integer>, Integer>> decoder;
+    private DatasetConverter<LinkedHashMap<Integer, Integer>> decoder;
     @Parameterized.Parameter
     private DatasetGenerator generator;
 
