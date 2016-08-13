@@ -10,6 +10,6 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({DatasetGeneratorTestForType.class, DatasetGeneratorTestForStatus.class, DatasetGeneratorTestForDataTraining.class, DatasetGeneratorTestForDataTesting.class})
-public class CumulateiveDatasetGeneratorTest
+public class AllComponentTest
 {
 }

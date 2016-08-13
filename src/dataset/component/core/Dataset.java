@@ -1,8 +1,8 @@
 package dataset.component.core;
 
 import dataset.component.Status;
-import dataset.component.StrokeData;
 import dataset.component.Type;
+import dataset.component.stroke.StrokeData;
 
 import java.util.Arrays;
 

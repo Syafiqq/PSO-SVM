@@ -1,11 +1,11 @@
 package dataset;
 
 import dataset.component.Status;
-import dataset.component.StrokeData;
 import dataset.component.Type;
 import dataset.component.core.Dataset;
 import dataset.component.core.DatasetBuilder;
 import dataset.component.core.DatasetConverter;
+import dataset.component.stroke.StrokeData;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
