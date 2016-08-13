@@ -1,6 +1,7 @@
 package algorithm.svm;
 
-import dataset.component.StrokeData;
+import dataset.component.stroke.StrokeData;
+import dataset.component.stroke.StrokeParameter;
 
 /**
  * Created by Muhammad Syafiq on 8/13/2016.
@@ -14,7 +15,7 @@ public class SVM
     private final double constantCost;
     private final StrokeData[] training;
     private final StrokeData[] testing;
-    private double[] variance;
+    private final StrokeParameter variance;
 
     public SVM(double augmentingFactor, double learningRate, double constantCost, StrokeData[] training, StrokeData[] testing)
     {
@@ -23,6 +24,7 @@ public class SVM
         this.constantCost = constantCost;
         this.training = training;
         this.testing = testing;
+        this.variance = new StrokeParameter(0, 0, 0, 0, 0);
     }
 
     public double getAugmentingFactor()
