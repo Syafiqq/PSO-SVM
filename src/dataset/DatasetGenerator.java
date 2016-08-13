@@ -1,7 +1,7 @@
 package dataset;
 
 import dataset.component.Status;
-import dataset.component.Stroke;
+import dataset.component.StrokeData;
 import dataset.component.Type;
 import dataset.component.core.Dataset;
 import dataset.component.core.DatasetBuilder;
@@ -59,7 +59,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final Stroke[] testing = new Stroke[size];
+        final StrokeData[] testing = new StrokeData[size];
         final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> statusEncoder = super.encoder.getStatus();
@@ -73,7 +73,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                testing[resultSetIndex] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")));
+                testing[resultSetIndex] = new StrokeData(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }
@@ -107,7 +107,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final Stroke[] trainings = new Stroke[size];
+        final StrokeData[] trainings = new StrokeData[size];
         final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> statusEncoder = super.encoder.getStatus();
@@ -121,7 +121,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                trainings[resultSetIndex] = new Stroke(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")));
+                trainings[resultSetIndex] = new StrokeData(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }

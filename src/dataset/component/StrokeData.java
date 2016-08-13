@@ -5,7 +5,7 @@ package dataset.component;
  * Email : Syafiq.rezpector@gmail.com
  * GitHub : Syafiqq
  */
-public class Stroke
+public class StrokeData
 {
     private int age;
     private double cholesterole;
@@ -14,7 +14,7 @@ public class Stroke
     private double triglyceride;
     private int status;
 
-    public Stroke(int age, double cholesterole, double hdl, double ldl, double triglyceride, int status)
+    public StrokeData(int age, double cholesterole, double hdl, double ldl, double triglyceride, int status)
     {
         this.age = age;
         this.cholesterole = cholesterole;
@@ -86,7 +86,7 @@ public class Stroke
 
     @Override public String toString()
     {
-        return "Stroke{" +
+        return "StrokeData{" +
                 "age=" + age +
                 ", cholesterole=" + cholesterole +
                 ", hdl=" + hdl +

@@ -1,7 +1,7 @@
 package dataset.component.core;
 
 import dataset.component.Status;
-import dataset.component.Stroke;
+import dataset.component.StrokeData;
 import dataset.component.Type;
 
 import java.util.Arrays;
@@ -13,8 +13,8 @@ import java.util.Arrays;
  */
 public class Dataset
 {
-    private Stroke[] training;
-    private Stroke[] testing;
+    private StrokeData[] training;
+    private StrokeData[] testing;
     private Type[] types;
     private Status[] statuses;
 
@@ -26,22 +26,22 @@ public class Dataset
         this.statuses = null;
     }
 
-    public Stroke[] getTraining()
+    public StrokeData[] getTraining()
     {
         return training;
     }
 
-    public void setTraining(final Stroke[] training)
+    public void setTraining(final StrokeData[] training)
     {
         this.training = training;
     }
 
-    public Stroke[] getTesting()
+    public StrokeData[] getTesting()
     {
         return testing;
     }
 
-    public void setTesting(final Stroke[] testing)
+    public void setTesting(final StrokeData[] testing)
     {
         this.testing = testing;
     }

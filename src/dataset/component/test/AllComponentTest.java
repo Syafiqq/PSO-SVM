@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
  * GitHub : Syafiqq
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({StatusTest.class, StrokeTest.class, TypeTest.class})
+@Suite.SuiteClasses({StatusTest.class, StrokeDataTest.class, TypeTest.class})
 public class AllComponentTest
 {
 

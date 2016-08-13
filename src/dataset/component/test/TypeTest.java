@@ -15,6 +15,6 @@ public class TypeTest
     {
         final Type type = new Type("Training");
         Assert.assertEquals("Name must be Training", "Training", type.getName());
-        Assert.assertEquals("Stroke object display must be Type{name='Training'}", "Type{name='Training'}", type.toString());
+        Assert.assertEquals("StrokeData object display must be Type{name='Training'}", "Type{name='Training'}", type.toString());
     }
 }
