@@ -1,5 +1,6 @@
 package dataset.component.core;
 
+import dataset.component.Parameter;
 import dataset.component.Status;
 import dataset.component.Type;
 import dataset.component.stroke.StrokeData;
@@ -17,6 +18,7 @@ public class Dataset
     private StrokeData[] testing;
     private Type[] types;
     private Status[] statuses;
+    private Parameter[] parameter;
 
     public Dataset()
     {
@@ -24,6 +26,7 @@ public class Dataset
         this.testing = null;
         this.types = null;
         this.statuses = null;
+        this.parameter = null;
     }
 
     public StrokeData[] getTraining()
@@ -66,6 +69,16 @@ public class Dataset
         this.statuses = statuses;
     }
 
+    public Parameter[] getParameter()
+    {
+        return parameter;
+    }
+
+    public void setParameter(final Parameter[] parameter)
+    {
+        this.parameter = parameter;
+    }
+
     @Override public String toString()
     {
         return "Dataset{" +
@@ -73,6 +86,7 @@ public class Dataset
                 ", testing=" + Arrays.toString(testing) +
                 ", types=" + Arrays.toString(types) +
                 ", statuses=" + Arrays.toString(statuses) +
+                ", parameter=" + Arrays.toString(parameter) +
                 '}';
     }
 }
