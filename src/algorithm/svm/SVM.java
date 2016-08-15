@@ -2,6 +2,7 @@ package algorithm.svm;
 
 import dataset.component.stroke.StrokeData;
 import dataset.component.stroke.StrokeParameter;
+import org.apache.commons.math3.stat.StatUtils;
 
 /**
  * Created by Muhammad Syafiq on 8/13/2016.
