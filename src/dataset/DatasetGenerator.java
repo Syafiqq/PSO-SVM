@@ -1,5 +1,6 @@
 package dataset;
 
+import dataset.component.Parameter;
 import dataset.component.Status;
 import dataset.component.Type;
 import dataset.component.core.Dataset;
@@ -19,8 +20,6 @@ import java.util.LinkedHashMap;
  */
 public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<LinkedHashMap<Integer, Integer>>, DatasetConverter<LinkedHashMap<Integer, Integer>>>
 {
-
-
     public DatasetGenerator(Dataset dataset, DatasetConverter<LinkedHashMap<Integer, Integer>> encoder, DatasetConverter<LinkedHashMap<Integer, Integer>> decoder)
     {
         super(dataset, encoder, decoder);
@@ -34,12 +33,14 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         super.dbComponent.activate();
         this.generateDatasetType();
         this.generateDatasetStatus();
+        this.generateDatasetParameter();
         this.generateDataTraining();
         this.generateDataTesting();
         super.dbComponent.deactivate();
         runtime.runFinalization();
         runtime.gc();
     }
+
 
     private void generateDataTesting()
     {
@@ -133,6 +134,53 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         catch(SQLException e)
         {
             System.err.println("Generate Dataset Training");
+            System.exit(-1);
+        }
+    }
+
+    private void generateDatasetParameter()
+    {
+         /*
+         * Get Parameter Size
+         * */
+        String query = "SELECT COUNT (ROWID) AS 'count' FROM parameter";
+        int size = -1;
+        try(final Statement statement = this.dbComponent.connection.createStatement();
+            final ResultSet resultSet = statement.executeQuery(query))
+        {
+            size = resultSet.getInt("count");
+        }
+        catch(SQLException e)
+        {
+            System.err.println("Generate Dataset Parameter Size");
+            System.exit(-1);
+        }
+
+        final Parameter[] parameters = new Parameter[size];
+        final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
+        final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
+
+        /*
+         * Get Status
+         * */
+        query = "SELECT ROWID AS 'id', parameter.name FROM parameter";
+        try(final Statement statement = this.dbComponent.connection.createStatement();
+            final ResultSet resultSet = statement.executeQuery(query))
+        {
+            for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
+            {
+                parameters[resultSetIndex] = new Parameter(resultSet.getString("name"));
+                encoder.put(resultSet.getInt("id"), resultSetIndex);
+                decoder.put(resultSetIndex, resultSet.getInt("id"));
+            }
+
+            super.dataset.setParameter(parameters);
+            super.encoder.setParameter(encoder);
+            super.decoder.setParameter(decoder);
+        }
+        catch(SQLException e)
+        {
+            System.err.println("Generate Dataset Parameter");
             System.exit(-1);
         }
     }
