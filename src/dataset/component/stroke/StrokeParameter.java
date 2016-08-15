@@ -1,5 +1,7 @@
 package dataset.component.stroke;
 
+import java.util.Arrays;
+
 /**
  * Created by Muhammad Syafiq on 8/13/2016.
  * Email : Syafiq.rezpector@gmail.com
@@ -7,54 +9,32 @@ package dataset.component.stroke;
  */
 public class StrokeParameter
 {
-    private final double age;
-    private final double cholesterol;
-    private final double hdl;
-    private final double ldl;
-    private final double triglyceride;
+    private final double[] parameter;
 
     public StrokeParameter(double age, double cholesterol, double hdl, double ldl, double triglyceride)
     {
-        this.age = age;
-        this.cholesterol = cholesterol;
-        this.hdl = hdl;
-        this.ldl = ldl;
-        this.triglyceride = triglyceride;
+        this.parameter = new double[] {age, cholesterol, hdl, ldl, triglyceride};
     }
 
-    public double getAge()
+    public StrokeParameter(final double[] parameter)
     {
-        return age;
+        this.parameter = parameter;
     }
 
-    public double getCholesterol()
+    public double[] getParameter()
     {
-        return cholesterol;
+        return parameter;
     }
 
-    public double getHdl()
+    public double getParameter(final int indexParams)
     {
-        return hdl;
-    }
-
-    public double getLdl()
-    {
-        return ldl;
-    }
-
-    public double getTriglyceride()
-    {
-        return triglyceride;
+        return this.parameter[indexParams];
     }
 
     @Override public String toString()
     {
         return "StrokeParameter{" +
-                "age=" + age +
-                ", cholesterol=" + cholesterol +
-                ", hdl=" + hdl +
-                ", ldl=" + ldl +
-                ", triglyceride=" + triglyceride +
+                "parameter=" + Arrays.toString(parameter) +
                 '}';
     }
 }
