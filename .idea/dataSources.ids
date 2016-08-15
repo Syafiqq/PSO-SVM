@@ -48,4 +48,57 @@
       </column>
     </database-model>
   </data-source>
+  <data-source name="Sqlite (Xerial) - stroke_test01.mcrypt" uuid="01fb1705-847f-437f-a9e3-c4c367485d01">
+    <database-info product="SQLite" version="3.8.11" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native"/>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
+    <database-model serializer="dbm" rdbms="SQLITE" format-version="2.6">
+      <schema id="1">
+        <visible>1</visible>
+      </schema>
+      <table id="2" parent="1" name="data"/>
+      <table id="3" parent="1" name="parameter"/>
+      <table id="4" parent="1" name="status"/>
+      <table id="5" parent="1" name="type"/>
+      <column id="6" parent="2" name="age">
+        <mandatory>1</mandatory>
+        <data-type>INTEGER(0,-1)|4</data-type>
+      </column>
+      <column id="7" parent="2" name="cholesterol">
+        <mandatory>1</mandatory>
+        <data-type>REAL(0,-1)|6</data-type>
+      </column>
+      <column id="8" parent="2" name="hdl">
+        <mandatory>1</mandatory>
+        <data-type>REAL(0,-1)|6</data-type>
+      </column>
+      <column id="9" parent="2" name="ldl">
+        <mandatory>1</mandatory>
+        <data-type>REAL(0,-1)|6</data-type>
+      </column>
+      <column id="10" parent="2" name="triglyceride">
+        <mandatory>1</mandatory>
+        <data-type>REAL(0,-1)|6</data-type>
+      </column>
+      <column id="11" parent="2" name="status">
+        <mandatory>1</mandatory>
+        <data-type>INTEGER(0,-1)|4</data-type>
+      </column>
+      <column id="12" parent="2" name="type">
+        <mandatory>1</mandatory>
+        <data-type>INTEGER(0,-1)|4</data-type>
+      </column>
+      <column id="13" parent="3" name="name">
+        <mandatory>1</mandatory>
+        <data-type>TEXT(0,-1)|12</data-type>
+      </column>
+      <column id="14" parent="4" name="name">
+        <mandatory>1</mandatory>
+        <data-type>TEXT(0,-1)|12</data-type>
+      </column>
+      <column id="15" parent="5" name="name">
+        <mandatory>1</mandatory>
+        <data-type>TEXT(0,-1)|12</data-type>
+      </column>
+    </database-model>
+  </data-source>
 </component>
