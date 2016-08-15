@@ -11,6 +11,7 @@ public class DatasetConverter<DataType>
     private DataType testing;
     private DataType status;
     private DataType type;
+    private DataType parameter;
 
     public DatasetConverter()
     {
@@ -18,6 +19,7 @@ public class DatasetConverter<DataType>
         this.testing = null;
         this.status = null;
         this.type = null;
+        this.parameter = null;
     }
 
     public DataType getTraining()
@@ -25,7 +27,7 @@ public class DatasetConverter<DataType>
         return training;
     }
 
-    public void setTraining(DataType training)
+    public void setTraining(final DataType training)
     {
         this.training = training;
     }
@@ -35,7 +37,7 @@ public class DatasetConverter<DataType>
         return testing;
     }
 
-    public void setTesting(DataType testing)
+    public void setTesting(final DataType testing)
     {
         this.testing = testing;
     }
@@ -45,7 +47,7 @@ public class DatasetConverter<DataType>
         return status;
     }
 
-    public void setStatus(DataType status)
+    public void setStatus(final DataType status)
     {
         this.status = status;
     }
@@ -55,9 +57,19 @@ public class DatasetConverter<DataType>
         return type;
     }
 
-    public void setType(DataType type)
+    public void setType(final DataType type)
     {
         this.type = type;
+    }
+
+    public DataType getParameter()
+    {
+        return parameter;
+    }
+
+    public void setParameter(final DataType parameter)
+    {
+        this.parameter = parameter;
     }
 
     @Override public String toString()
