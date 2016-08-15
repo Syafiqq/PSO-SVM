@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
  * GitHub : Syafiqq
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({StatusTest.class, TypeTest.class})
+@Suite.SuiteClasses({StatusTest.class, TypeTest.class, ParameterTest.class})
 public class AllComponentTest
 {
 
