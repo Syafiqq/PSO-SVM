@@ -7,10 +7,12 @@ package dataset.component;
  */
 public class Type
 {
+    private String key;
     private String name;
 
-    public Type(final String name)
+    public Type(final String key, final String name)
     {
+        this.key = key;
         this.name = name;
     }
 
@@ -24,10 +26,21 @@ public class Type
         this.name = name;
     }
 
+    public String getKey()
+    {
+        return key;
+    }
+
+    public void setKey(final String key)
+    {
+        this.key = key;
+    }
+
     @Override public String toString()
     {
         return "Type{" +
-                "name='" + name + '\'' +
+                "key='" + key + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
