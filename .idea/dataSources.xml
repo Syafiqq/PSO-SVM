@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3106555370">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="Sqlite (Xerial) - stroke.mcrypt" uuid="4aca5104-b63d-453c-b2db-920dcffd4969">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
