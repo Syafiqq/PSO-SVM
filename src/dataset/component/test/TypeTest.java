@@ -11,10 +11,21 @@ import org.junit.Test;
  */
 public class TypeTest
 {
-    @Test public void testStatusNormal01()
+    @Test public void testStatusName01()
     {
-        final Type type = new Type("Training");
+        final Type type = new Type("training", "Training");
         Assert.assertEquals("Name must be Training", "Training", type.getName());
-        Assert.assertEquals("StrokeData object display must be Type{name='Training'}", "Type{name='Training'}", type.toString());
+    }
+
+    @Test public void testStatusKey01()
+    {
+        final Type type = new Type("training", "Training");
+        Assert.assertEquals("Name must be training", "training", type.getKey());
+    }
+
+    @Test public void testObjectDisplay01()
+    {
+        final Type type = new Type("training", "Training");
+        Assert.assertEquals("StrokeData object display must be Type{key='training', name='Training'}", "Type{key='training', name='Training'}", type.toString());
     }
 }
