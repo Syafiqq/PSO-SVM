@@ -7,10 +7,12 @@ package dataset.component;
  */
 public class Status
 {
+    private String key;
     private String name;
 
-    public Status(final String name)
+    public Status(final String key, final String name)
     {
+        this.key = key;
         this.name = name;
     }
 
@@ -24,10 +26,21 @@ public class Status
         this.name = name;
     }
 
+    public String getKey()
+    {
+        return key;
+    }
+
+    public void setKey(final String key)
+    {
+        this.key = key;
+    }
+
     @Override public String toString()
     {
         return "Status{" +
-                "name='" + name + '\'' +
+                "key='" + key + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
