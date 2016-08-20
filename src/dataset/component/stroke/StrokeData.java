@@ -27,9 +27,9 @@ public class StrokeData
         return metadata;
     }
 
-    public StrokeParameter getParameter()
+    public StrokeParameter getParameterComponent()
     {
-        return parameter;
+        return this.parameter;
     }
 
     @Override public String toString()
