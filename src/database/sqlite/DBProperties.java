@@ -7,16 +7,15 @@ package database.sqlite;
  */
 public class DBProperties
 {
+    private static DBProperties ourInstance = new DBProperties();
     public String url;
 
-    private static DBProperties ourInstance = new DBProperties();
+    private DBProperties()
+    {
+    }
 
     public static DBProperties getInstance()
     {
         return DBProperties.ourInstance;
-    }
-
-    private DBProperties()
-    {
     }
 }
