@@ -11,8 +11,6 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Muhammad Syafiq on 8/15/2016.
  * Email : Syafiq.rezpector@gmail.com
