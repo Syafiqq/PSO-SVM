@@ -31,9 +31,9 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         runtime.runFinalization();
         runtime.gc();
         super.dbComponent.activate();
+        this.generateDatasetParameter();
         this.generateDatasetType();
         this.generateDatasetStatus();
-        this.generateDatasetParameter();
         this.generateDataTraining();
         this.generateDataTesting();
         super.dbComponent.deactivate();
@@ -65,16 +65,18 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> statusEncoder = super.encoder.getStatus();
 
+        final Parameter[] parameters = this.dataset.getParameter();
+
         /*
          * Get Data Testing
          * */
-        query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Testing' LIMIT 1) ORDER BY data.status ASC";
+        query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Testing' LIMIT 1) ORDER BY data.ROWID ASC";
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                testing[resultSetIndex] = new StrokeData(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")));
+                testing[resultSetIndex] = new StrokeData(resultSet.getInt(parameters[0].getKey()), resultSet.getDouble(parameters[1].getKey()), resultSet.getDouble(parameters[2].getKey()), resultSet.getDouble(parameters[3].getKey()), resultSet.getDouble(parameters[4].getKey()), statusEncoder.get(resultSet.getInt("status")));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }
@@ -113,16 +115,18 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> statusEncoder = super.encoder.getStatus();
 
+        final Parameter[] parameters = this.dataset.getParameter();
+
         /*
          * Get Data Testing
          * */
-        query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Training' LIMIT 1) ORDER BY data.status ASC";
+        query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Training' LIMIT 1) ORDER BY data.ROWID ASC";
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                trainings[resultSetIndex] = new StrokeData(resultSet.getInt("age"), resultSet.getDouble("cholesterol"), resultSet.getDouble("hdl"), resultSet.getDouble("ldl"), resultSet.getDouble("triglyceride"), statusEncoder.get(resultSet.getInt("status")));
+                trainings[resultSetIndex] = new StrokeData(resultSet.getInt(parameters[0].getKey()), resultSet.getDouble(parameters[1].getKey()), resultSet.getDouble(parameters[2].getKey()), resultSet.getDouble(parameters[3].getKey()), resultSet.getDouble(parameters[4].getKey()), statusEncoder.get(resultSet.getInt("status")));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }
@@ -163,13 +167,13 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         /*
          * Get Status
          * */
-        query = "SELECT ROWID AS 'id', parameter.name FROM parameter";
+        query = "SELECT ROWID AS 'id', * FROM parameter";
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                parameters[resultSetIndex] = new Parameter(resultSet.getString("name"));
+                parameters[resultSetIndex] = new Parameter(resultSet.getString("key"), resultSet.getString("name"));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }
@@ -210,13 +214,13 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         /*
          * Get Status
          * */
-        query = "SELECT ROWID AS 'id', status.name FROM status";
+        query = "SELECT ROWID AS 'id', * FROM status";
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                statuses[resultSetIndex] = new Status(resultSet.getString("name"));
+                statuses[resultSetIndex] = new Status(resultSet.getString("key"), resultSet.getString("name"));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }
@@ -257,13 +261,13 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
         /*
          * Get Type
          * */
-        query = "SELECT ROWID AS 'id', type.name FROM type";
+        query = "SELECT ROWID AS 'id', * FROM type";
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
             for(int resultSetIndex = 0; resultSet.next(); ++resultSetIndex)
             {
-                types[resultSetIndex] = new Type(resultSet.getString("name"));
+                types[resultSetIndex] = new Type(resultSet.getString("key"), resultSet.getString("name"));
                 encoder.put(resultSet.getInt("id"), resultSetIndex);
                 decoder.put(resultSetIndex, resultSet.getInt("id"));
             }
