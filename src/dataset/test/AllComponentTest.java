@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
  * GitHub : Syafiqq
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({DatasetGeneratorTestForType.class, DatasetGeneratorTestForStatus.class, DatasetGeneratorTestForDataTraining.class, DatasetGeneratorTestForDataTesting.class})
+@Suite.SuiteClasses({DatasetGeneratorTestForType.class, DatasetGeneratorTestForStatus.class, DatasetGeneratorTestForParameter.class, DatasetGeneratorTestForDataTraining.class, DatasetGeneratorTestForDataTesting.class})
 public class AllComponentTest
 {
 }
