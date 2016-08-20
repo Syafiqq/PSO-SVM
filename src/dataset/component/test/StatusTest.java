@@ -12,10 +12,21 @@ import org.junit.Test;
  */
 public class StatusTest
 {
-    @Test public void testStatusNormal01()
+    @Test public void testStatusName01()
     {
-        final Status status = new Status("Normal");
+        final Status status = new Status("normal", "Normal");
         Assert.assertEquals("Name must be Normal", "Normal", status.getName());
-        Assert.assertEquals("Object Display must Be Status{name='Normal'}", "Status{name='Normal'}", status.toString());
+    }
+
+    @Test public void testStatusKey01()
+    {
+        final Status status = new Status("normal", "Normal");
+        Assert.assertEquals("Key must be normal", "normal", status.getKey());
+    }
+
+    @Test public void testObjectDisplay01()
+    {
+        final Status status = new Status("normal", "Normal");
+        Assert.assertEquals("Object Display must Be Status{key='normal', name='Normal'}", "Status{key='normal', name='Normal'}", status.toString());
     }
 }
