@@ -2,7 +2,6 @@ package database.sqlite;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,25 +18,6 @@ public class DBComponent
     public DBComponent()
     {
         this.connection = null;
-    }
-
-    public void activate()
-    {
-        DBProperties properties = DBProperties.getInstance();
-        try
-        {
-            this.connection = DriverManager.getConnection(properties.url);
-        }
-        catch(SQLException ignored)
-        {
-            System.err.println("Activate Database");
-            System.exit(-1);
-        }
-    }
-
-    public void deactivate()
-    {
-        DBComponent.closeConnection(this.connection);
     }
 
     public static void closeConnection(final Connection connection)
@@ -71,5 +51,24 @@ public class DBComponent
         catch(SQLException | NullPointerException ignored)
         {
         }
+    }
+
+    public void activate()
+    {
+        DBProperties properties = DBProperties.getInstance();
+        try
+        {
+            this.connection = DriverManager.getConnection(properties.url);
+        }
+        catch(SQLException ignored)
+        {
+            System.err.println("Activate Database");
+            System.exit(-1);
+        }
+    }
+
+    public void deactivate()
+    {
+        DBComponent.closeConnection(this.connection);
     }
 }
