@@ -22,9 +22,18 @@ public class Main
 
     private static void debugSetting()
     {
+        Main.debug_002();
+    }
+
+    private static void debug_001()
+    {
         final DBProperties properties = DBProperties.getInstance();
         properties.url = "jdbc:sqlite:D:/Muhammad Syafiq/Documents/JetBrains/Idea/SVM_001/db/stroke_test01.mcrypt";
     }
 
-
+    private static void debug_002()
+    {
+        final DBProperties properties = DBProperties.getInstance();
+        properties.url = "jdbc:sqlite:D:/Muhammad Syafiq/Documents/JetBrains/Idea/SVM_001/db/stroke_test02.mcrypt";
+    }
 }
