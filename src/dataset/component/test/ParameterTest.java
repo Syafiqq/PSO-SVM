@@ -4,8 +4,6 @@ import dataset.component.Parameter;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Muhammad Syafiq on 8/15/2016.
  * Email : Syafiq.rezpector@gmail.com
@@ -13,10 +11,22 @@ import static org.junit.Assert.*;
  */
 public class ParameterTest
 {
-    @Test public void testStatusCholesterol01()
+
+    @Test public void testStatusName01()
     {
-        final Parameter parameter = new Parameter("Cholesterol");
+        final Parameter parameter = new Parameter("cholesterol", "Cholesterol");
         Assert.assertEquals("Name must be Cholesterol", "Cholesterol", parameter.getName());
-        Assert.assertEquals("Object Display must Be Parameter{name='Cholesterol'}", "Parameter{name='Cholesterol'}", parameter.toString());
+    }
+
+    @Test public void testStatusKey01()
+    {
+        final Parameter parameter = new Parameter("cholesterol", "Cholesterol");
+        Assert.assertEquals("Name must be cholesterol", "cholesterol", parameter.getKey());
+    }
+
+    @Test public void testObjectDisplay01()
+    {
+        final Parameter parameter = new Parameter("cholesterol", "Cholesterol");
+        Assert.assertEquals("Object Display must Be Parameter{key='cholesterol', name='Cholesterol'}", "Parameter{key='cholesterol', name='Cholesterol'}", parameter.toString());
     }
 }
