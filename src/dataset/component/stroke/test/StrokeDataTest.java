@@ -30,8 +30,8 @@ public class StrokeDataTest
     @Test public void testStrokeParameterDisplay01()
     {
         Assert.assertEquals("StrokeParameter Display must Be " +
-                        "StrokeParameter{age=1.0, cholesterol=2.5, hdl=3.5, ldl=4.5, triglyceride=5.5}",
-                "StrokeParameter{age=1.0, cholesterol=2.5, hdl=3.5, ldl=4.5, triglyceride=5.5}",
-                this.strokeData.getParameter().toString());
+                        "StrokeParameter{parameter=[1.0, 2.5, 3.5, 4.5, 5.5]}",
+                "StrokeParameter{parameter=[1.0, 2.5, 3.5, 4.5, 5.5]}",
+                this.strokeData.getParameterComponent().toString());
     }
 }
