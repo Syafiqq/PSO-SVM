@@ -1,5 +1,7 @@
 package algorithm.svm.test;
 
+import algorithm.svm.OneAgainstAll;
+import algorithm.svm.Parameter;
 import algorithm.svm.SVM;
 import dataset.DatasetGenerator;
 import dataset.component.core.Dataset;
@@ -11,8 +13,6 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Muhammad Syafiq on 8/15/2016.
@@ -41,39 +41,104 @@ import static org.junit.Assert.*;
         this.generator.generateDataset();
     }
 
-    @Test public void testSVM_calculateTrainingVariance()
+    @Test public void testCalculateTrainingVariance_000()
     {
-        final SVM svm = new SVM(0.1, 0.2, 1000, this.dataset.getTraining(), this.dataset.getTesting());
-        System.out.println();
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        final double[] variance = svm.getVariance();
+        System.out.println(Arrays.toString(variance));
     }
 
-    @Test public void testSVMAugmentingFactor()
+    @Test public void testCalculateKernel_000()
     {
-        final SVM svm = new SVM(0.1, 0.2, 1000, this.dataset.getTraining(), this.dataset.getTesting());
-        System.out.println(svm.getAugmentingFactor());
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        final double[][] kernel = svm.getKernel();
+        for(double[] lv1 : kernel)
+        {
+            System.out.println(Arrays.toString(lv1));
+        }
     }
 
-    @Test public void testSVMLearingRate()
+    @Test public void testGenerateOneAgainstAllClass_000()
     {
-        final SVM svm = new SVM(0.1, 0.2, 1000, this.dataset.getTraining(), this.dataset.getTesting());
-        System.out.println(svm.getLearningRate());
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        final OneAgainstAll[] oaas = svm.getOneAgainstAllLevel();
+        for(final OneAgainstAll oaa : oaas)
+        {
+            System.out.println(Arrays.toString(oaa.getClassData()));
+        }
     }
 
-    @Test public void testSVMConstantCost()
+    @Test public void testGenerateOneAgainstAllAllowed_000()
     {
-        final SVM svm = new SVM(0.1, 0.2, 1000, this.dataset.getTraining(), this.dataset.getTesting());
-        System.out.println(svm.getConstantCost());
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        for(final OneAgainstAll oaa : svm.getOneAgainstAllLevel())
+        {
+            System.out.println(Arrays.toString(oaa.getAllowedData()));
+        }
     }
 
-    @Test public void testSVMDataTraining()
+    @Test public void testGenerateMatrixD()
     {
-        final SVM svm = new SVM(0.1, 0.2, 1000, this.dataset.getTraining(), this.dataset.getTesting());
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        svm.doSequentialLearning();
+        for(final OneAgainstAll oaa : svm.getOneAgainstAllLevel())
+        {
+            for(final double[] lv1 : oaa.getMatrixD())
+            {
+                for(final double lv2 : lv1)
+                {
+                    System.out.printf("%12.10g\t", lv2);
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println();
+        }
+    }
+
+    @Test public void testCalculateMultiplier_000()
+    {
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        svm.doSequentialLearning();
+        for(final OneAgainstAll oaa : svm.getOneAgainstAllLevel())
+        {
+            for(final double multiplier : oaa.getMultiplier())
+            {
+                System.out.printf("%12.10g\t", multiplier);
+            }
+            System.out.println();
+        }
+    }
+
+    @Test public void testCalculateBias_000()
+    {
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        svm.doSequentialLearning();
+        for(final OneAgainstAll oaa : svm.getOneAgainstAllLevel())
+        {
+            System.out.printf("%12.10g\n", oaa.getBias());
+        }
+    }
+
+    @Test public void testTestClassify_000()
+    {
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
+        svm.doSequentialLearning();
+        System.out.println(svm.doTesting(this.dataset.getTesting()));
+    }
+
+    @Test public void testDataTraining_000()
+    {
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 3);
+        final SVM svm = new SVM(parameter, this.dataset.getTraining());
         System.out.println(Arrays.toString(svm.getTraining()));
-    }
-
-    @Test public void testSVMDataTesting()
-    {
-        final SVM svm = new SVM(0.1, 0.2, 1000, this.dataset.getTraining(), this.dataset.getTesting());
-        System.out.println(Arrays.toString(svm.getTesting()));
     }
 }
