@@ -24,9 +24,10 @@ public class SVM
     private final double[][] kernel;
     private final double[] kernelTesting;
 
-    public SVM(final Parameter parameter, StrokeData[] training)
+    public SVM(final Parameter parameter, StrokeData[] training) throws StrokeException
     {
         this.parameter = parameter;
+        this.sanitizeBunchOfStrokeData(training);
         this.training = training;
         this.variance = new double[this.parameter.getParameterSize()];
         this.kernel = new double[this.training.length][this.training.length];
@@ -269,7 +270,15 @@ public class SVM
         {
             int indexPlus = oaa.findGreatestMultiplierIndexByClassification(1);
             int indexMinus = oaa.findGreatestMultiplierIndexByClassification(-1);
-            oaa.calculateBias(this.kernel[indexPlus], this.kernel[indexMinus]);
+            try
+            {
+                oaa.calculateBias(this.kernel[indexPlus], this.kernel[indexMinus]);
+            }
+            catch(ArrayIndexOutOfBoundsException ignored)
+            {
+                System.out.println(this.parameter);
+                System.exit(1);
+            }
         }
     }
 

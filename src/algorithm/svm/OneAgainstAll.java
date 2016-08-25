@@ -15,6 +15,9 @@ public class OneAgainstAll
     private final double[] multiplier;
     private int[] allowedData;
     private double bias;
+    private int classPositiveInitiate;
+    private int classNegativeInitiate;
+
 
     public OneAgainstAll(int dataSize)
     {
@@ -23,6 +26,8 @@ public class OneAgainstAll
         this.multiplier = new double[dataSize];
         this.allowedData = null;
         this.bias = 0.0;
+        this.classPositiveInitiate = -1;
+        this.classNegativeInitiate = -1;
     }
 
     public void calculateMatrixD(@NotNull final double[][] precalculatedKernel)
@@ -68,8 +73,29 @@ public class OneAgainstAll
         this.bias = bias;
     }
 
+    public int getClassPositiveInitiate()
+    {
+        return classPositiveInitiate;
+    }
+
+    public void setClassPositiveInitiate(int classPositiveInitiate)
+    {
+        this.classPositiveInitiate = classPositiveInitiate;
+    }
+
+    public int getClassNegativeInitiate()
+    {
+        return classNegativeInitiate;
+    }
+
+    public void setClassNegativeInitiate(int classNegativeInitiate)
+    {
+        this.classNegativeInitiate = classNegativeInitiate;
+    }
+
     public void learnMultiplier(int iterationMax, double learningRate, double constantCost)
     {
+        //this.resetMultiplier();
         for(int currentIteration = -1; ++currentIteration < iterationMax; )
         {
             for(final int dataIndex : this.allowedData)
@@ -79,6 +105,14 @@ public class OneAgainstAll
                 value = borderingMultiplier(value, multiplier, learningRate, constantCost);
                 this.multiplier[dataIndex] += value;
             }
+        }
+    }
+
+    private void resetMultiplier()
+    {
+        for(final int dataIndex : this.allowedData)
+        {
+            this.multiplier[dataIndex] = 0.0;
         }
     }
 
@@ -107,7 +141,7 @@ public class OneAgainstAll
     {
         final int[] clazz = this.clazz;
         final double[] multipliers = this.multiplier;
-        double multiplier = Double.MIN_VALUE;
+        double multiplier = Float.MIN_VALUE;
         int index = -1;
         for(int dataIndex : this.allowedData)
         {

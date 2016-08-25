@@ -42,7 +42,7 @@ import java.util.LinkedHashMap;
         this.generator.generateDataset();
     }
 
-    @Test public void testCalculateTrainingVariance_000()
+    @Test public void testCalculateTrainingVariance_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -50,7 +50,7 @@ import java.util.LinkedHashMap;
         System.out.println(Arrays.toString(variance));
     }
 
-    @Test public void testCalculateKernel_000()
+    @Test public void testCalculateKernel_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -61,7 +61,7 @@ import java.util.LinkedHashMap;
         }
     }
 
-    @Test public void testGenerateOneAgainstAllClass_000()
+    @Test public void testGenerateOneAgainstAllClass_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -72,7 +72,7 @@ import java.util.LinkedHashMap;
         }
     }
 
-    @Test public void testGenerateOneAgainstAllAllowed_000()
+    @Test public void testGenerateOneAgainstAllAllowed_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -82,7 +82,7 @@ import java.util.LinkedHashMap;
         }
     }
 
-    @Test public void testGenerateMatrixD()
+    @Test public void testGenerateMatrixD() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 10);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -102,7 +102,7 @@ import java.util.LinkedHashMap;
         }
     }
 
-    @Test public void testCalculateMultiplier_000()
+    @Test public void testCalculateMultiplier_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -117,7 +117,7 @@ import java.util.LinkedHashMap;
         }
     }
 
-    @Test public void testCalculateBias_000()
+    @Test public void testCalculateBias_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
@@ -136,7 +136,7 @@ import java.util.LinkedHashMap;
         System.out.println(svm.evaluateStrokeData(this.dataset.getTesting()));
     }
 
-    @Test public void testDataTraining_000()
+    @Test public void testDataTraining_000() throws StrokeException
     {
         final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 3);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());

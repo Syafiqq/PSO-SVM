@@ -42,6 +42,14 @@ public class SVMLearnerTest
         this.generator.generateDataset();
     }
 
+    @Test public void testTestClassifyException() throws StrokeException
+    {
+        final Parameter svmParameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
+        final SVMLearner svm = new SVMLearner(svmParameter, this.dataset.getTraining(), this.dataset.getTesting());
+        svm.doSequentialLearning();
+        System.out.println(svm.evaluateStrokeData(this.dataset.getTesting()));
+    }
+
     @Test public void testTestClassify_000() throws StrokeException
     {
         final Parameter svmParameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
