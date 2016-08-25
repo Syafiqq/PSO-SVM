@@ -6,6 +6,7 @@ import algorithm.svm.SVM;
 import dataset.DatasetGenerator;
 import dataset.component.core.Dataset;
 import dataset.component.core.DatasetConverter;
+import dataset.component.stroke.exception.StrokeException;
 import main.Main;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,12 +128,12 @@ import java.util.LinkedHashMap;
         }
     }
 
-    @Test public void testTestClassify_000()
+    @Test public void testTestClassify_000() throws StrokeException
     {
-        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 1000000);
+        final Parameter parameter = new Parameter(0.1, 0.2, 1000, this.dataset.getParameter().length, this.dataset.getStatuses().length, 3);
         final SVM svm = new SVM(parameter, this.dataset.getTraining());
         svm.doSequentialLearning();
-        System.out.println(svm.doTesting(this.dataset.getTesting()));
+        System.out.println(svm.evaluateStrokeData(this.dataset.getTesting()));
     }
 
     @Test public void testDataTraining_000()
