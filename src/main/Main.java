@@ -17,7 +17,7 @@ public class Main
     private static void releaseSetting()
     {
         final DBProperties properties = DBProperties.getInstance();
-        properties.url = "jdbc:sqlite:D:/Muhammad Syafiq/Documents/JetBrains/Idea/SVM_001/db/stroke.mcrypt";
+        properties.url = "jdbc:sqlite:"+System.getProperty("user.dir")+"/db/stroke.mcrypt";
     }
 
     private static void debugSetting()
@@ -28,12 +28,12 @@ public class Main
     private static void debug_001()
     {
         final DBProperties properties = DBProperties.getInstance();
-        properties.url = "jdbc:sqlite:D:/Muhammad Syafiq/Documents/JetBrains/Idea/SVM_001/db/stroke_test01.mcrypt";
+        properties.url = "jdbc:sqlite:"+System.getProperty("user.dir")+"/db/stroke_test01.mcrypt";
     }
 
     private static void debug_002()
     {
         final DBProperties properties = DBProperties.getInstance();
-        properties.url = "jdbc:sqlite:D:/Muhammad Syafiq/Documents/JetBrains/Idea/SVM_001/db/stroke_test02.mcrypt";
+        properties.url = "jdbc:sqlite:"+System.getProperty("user.dir")+"/db/stroke_test02.mcrypt";
     }
 }
