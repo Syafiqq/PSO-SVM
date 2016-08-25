@@ -5,7 +5,7 @@ package dataset.component.stroke.exception;
  * Email : Syafiq.rezpector@gmail.com
  * GitHub : Syafiqq
  */
-public class StrokeException extends Exception
+public class StrokeException extends RuntimeException
 {
     public StrokeException()
     {
