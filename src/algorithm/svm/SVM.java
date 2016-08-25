@@ -2,6 +2,8 @@ package algorithm.svm;
 
 import dataset.component.stroke.StrokeData;
 import dataset.component.stroke.StrokeParameter;
+import dataset.component.stroke.exception.NoSuchStrokeStatusException;
+import dataset.component.stroke.exception.StrokeException;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.util.FastMath;
 
@@ -47,14 +49,63 @@ public class SVM
         this.calculateBias();
     }
 
-    public int doTesting(final StrokeData[] data)
+    public int testStrokeData(final StrokeData strokeData) throws StrokeException
+    {
+        return this.doTestWithSanitizing(strokeData);
+    }
+
+    public double evaluateStrokeData(final StrokeData[] bunchOfStrokeData) throws StrokeException
+    {
+        return this.evaluateStrokeDataWithSanitizing(bunchOfStrokeData);
+    }
+
+    protected double evaluateStrokeDataWithSanitizing(StrokeData[] bunchOfStrokeData) throws StrokeException
+    {
+        this.sanitizeBunchOfStrokeData(bunchOfStrokeData);
+        return this.evaluateStrokeDataWithoutSanitizing(bunchOfStrokeData);
+    }
+
+    protected double evaluateStrokeDataWithoutSanitizing(final StrokeData[] bunchOfStrokeData)
+    {
+        return this.doTestBunchOfStrokeDataWithoutSanitizing(bunchOfStrokeData) * 100.0 / bunchOfStrokeData.length;
+    }
+
+    protected void sanitizeBunchOfStrokeData(final StrokeData[] bunchOfStrokeData) throws StrokeException
+    {
+        for(final StrokeData strokeData : bunchOfStrokeData)
+        {
+            this.sanitizeStrokeData(strokeData);
+        }
+    }
+
+    public void sanitizeStrokeData(StrokeData stroke) throws StrokeException
+    {
+        final int strokeStatus = stroke.getMetadata().getStatus();
+        if((strokeStatus < -1) || (strokeStatus > this.parameter.getClassTotal()))
+        {
+            throw new NoSuchStrokeStatusException(String.format("Stroke Status [%d] is not registered", strokeStatus));
+        }
+    }
+
+    protected int doTestBunchOfStrokeDataWithoutSanitizing(final StrokeData[] bunchOfStrokeData)
     {
         int total = 0;
-        for(final StrokeData stroke : data)
+        for(final StrokeData stroke : bunchOfStrokeData)
         {
-            total += doClassify(stroke.getParameterComponent()) == stroke.getMetadata().getStatus() ? 1 : 0;
+            total += doTestWithoutSanitizing(stroke);
         }
         return total;
+    }
+
+    protected int doTestWithSanitizing(final StrokeData strokeData) throws StrokeException
+    {
+        this.sanitizeStrokeData(strokeData);
+        return this.doTestWithoutSanitizing(strokeData);
+    }
+
+    protected int doTestWithoutSanitizing(final StrokeData strokeData)
+    {
+        return doClassify(strokeData.getParameterComponent()) == strokeData.getMetadata().getStatus() ? 1 : 0;
     }
 
     public int doClassify(final StrokeParameter data)
