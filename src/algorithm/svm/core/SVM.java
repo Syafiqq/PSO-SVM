@@ -1,14 +1,16 @@
-package algorithm.svm;
+package algorithm.svm.core;
 
+import algorithm.svm.component.OneAgainstAll;
+import algorithm.svm.component.Parameter;
 import dataset.component.stroke.StrokeData;
 import dataset.component.stroke.StrokeParameter;
 import dataset.component.stroke.exception.NoSuchStrokeStatusException;
 import dataset.component.stroke.exception.StrokeException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.util.FastMath;
-
-import java.util.ArrayList;
-import java.util.ListIterator;
 
 /**
  * Created by Muhammad Syafiq on 8/13/2016.
@@ -17,26 +19,24 @@ import java.util.ListIterator;
  */
 public class SVM
 {
-    private final Parameter parameter;
-    private final StrokeData[] training;
+    private final Parameter       parameter;
+    private final StrokeData[]    training;
     private final OneAgainstAll[] oneAgainstAlls;
-    private final double[] variance;
-    private final double[][] kernel;
-    private final double[] kernelTesting;
+    private final double[]        variance;
+    private final double[][]      kernel;
 
     public SVM(final Parameter parameter, StrokeData[] training) throws StrokeException
     {
         this.parameter = parameter;
-        this.sanitizeBunchOfStrokeData(training);
+        this.sanitizeStrokeData(training);
         this.training = training;
         this.variance = new double[this.parameter.getParameterSize()];
         this.kernel = new double[this.training.length][this.training.length];
         this.oneAgainstAlls = new OneAgainstAll[this.parameter.getClassTotal() - 1];
-        this.kernelTesting = new double[this.training.length];
         this.initializeSVM();
     }
 
-    private void initializeSVM()
+    protected void initializeSVM()
     {
         this.calculateVariance();
         this.calculateKernelBetweenData();
@@ -50,72 +50,46 @@ public class SVM
         this.calculateBias();
     }
 
-    public int testStrokeData(final StrokeData strokeData) throws StrokeException
+    public Parameter getParameter()
     {
-        return this.doTestWithSanitizing(strokeData);
+        return this.parameter;
     }
 
-    public double evaluateStrokeData(final StrokeData[] bunchOfStrokeData) throws StrokeException
+    public double evaluateStrokeData(final StrokeData... strokeData) throws StrokeException
     {
-        return this.evaluateStrokeDataWithSanitizing(bunchOfStrokeData);
+        this.sanitizeStrokeData(strokeData);
+        return this.doTest(strokeData) * 100.0 / strokeData.length;
     }
 
-    protected double evaluateStrokeDataWithSanitizing(StrokeData[] bunchOfStrokeData) throws StrokeException
+    protected void sanitizeStrokeData(final StrokeData... strokeData) throws StrokeException
     {
-        this.sanitizeBunchOfStrokeData(bunchOfStrokeData);
-        return this.evaluateStrokeDataWithoutSanitizing(bunchOfStrokeData);
-    }
-
-    protected double evaluateStrokeDataWithoutSanitizing(final StrokeData[] bunchOfStrokeData)
-    {
-        return this.doTestBunchOfStrokeDataWithoutSanitizing(bunchOfStrokeData) * 100.0 / bunchOfStrokeData.length;
-    }
-
-    protected void sanitizeBunchOfStrokeData(final StrokeData[] bunchOfStrokeData) throws StrokeException
-    {
-        for(final StrokeData strokeData : bunchOfStrokeData)
+        for(final StrokeData data : strokeData)
         {
-            this.sanitizeStrokeData(strokeData);
+            final int strokeStatus = data.getMetadata().getStatus();
+            if((strokeStatus < -1) || (strokeStatus > this.parameter.getClassTotal()))
+            {
+                throw new NoSuchStrokeStatusException(String.format("Stroke Status [%d] is not registered", strokeStatus));
+            }
         }
     }
 
-    public void sanitizeStrokeData(StrokeData stroke) throws StrokeException
-    {
-        final int strokeStatus = stroke.getMetadata().getStatus();
-        if((strokeStatus < -1) || (strokeStatus > this.parameter.getClassTotal()))
-        {
-            throw new NoSuchStrokeStatusException(String.format("Stroke Status [%d] is not registered", strokeStatus));
-        }
-    }
-
-    protected int doTestBunchOfStrokeDataWithoutSanitizing(final StrokeData[] bunchOfStrokeData)
+    private int doTest(final StrokeData... strokeData)
     {
         int total = 0;
-        for(final StrokeData stroke : bunchOfStrokeData)
+        for(final StrokeData stroke : strokeData)
         {
-            total += doTestWithoutSanitizing(stroke);
+            total += doClassify(stroke.getParameterComponent()) == stroke.getMetadata().getStatus() ? 1 : 0;
         }
         return total;
     }
 
-    protected int doTestWithSanitizing(final StrokeData strokeData) throws StrokeException
-    {
-        this.sanitizeStrokeData(strokeData);
-        return this.doTestWithoutSanitizing(strokeData);
-    }
-
-    protected int doTestWithoutSanitizing(final StrokeData strokeData)
-    {
-        return doClassify(strokeData.getParameterComponent()) == strokeData.getMetadata().getStatus() ? 1 : 0;
-    }
-
     public int doClassify(final StrokeParameter data)
     {
-        this.calculateKernelDataTesting(data);
-        int clazz = 0;
+        final double[] kernel = this.calculateKernelDataTesting(data);
+        int            clazz  = 0;
         for(final OneAgainstAll oaa : this.oneAgainstAlls)
         {
-            if(oaa.doClassify(this.kernelTesting) == 1)
+            if(oaa.doClassify(kernel) == 1)
             {
                 break;
             }
@@ -127,26 +101,27 @@ public class SVM
         return clazz;
     }
 
-    private void calculateKernelDataTesting(StrokeParameter data)
+    protected double[] calculateKernelDataTesting(StrokeParameter data)
     {
-        final double[] testing = data.getParameter();
-        final double[] kernel = this.kernelTesting;
+        final double[] testing  = data.getParameter();
+        final double[] kernel   = new double[this.training.length];
         final double[] variance = this.variance;
         for(int trainingIndex = -1, trainingSize = this.training.length, parameterSize = this.parameter.getParameterSize(); ++trainingIndex < trainingSize; )
         {
             final double[] training = this.training[trainingIndex].getParameterComponent().getParameter();
-            double value = 1;
+            double         value    = 1;
             for(int parameterIndex = -1; ++parameterIndex < parameterSize; )
             {
                 value *= FastMath.exp(FastMath.pow(testing[parameterIndex] - training[parameterIndex], 2) / (-2 * variance[parameterIndex]));
             }
             kernel[trainingIndex] = value;
         }
+        return kernel;
     }
 
     private void calculateVariance()
     {
-        final double[] variance = this.variance;
+        final double[] variance           = this.variance;
         final double[] currentCalculation = new double[this.training.length];
         for(int parameterIndex = -1, parameterSize = this.parameter.getParameterSize(), trainingSize = this.training.length; ++parameterIndex < parameterSize; )
         {
@@ -160,8 +135,8 @@ public class SVM
 
     private void calculateKernelBetweenData()
     {
-        final double[] variance = this.variance;
-        final double[][] kernel = this.kernel;
+        final double[]   variance = this.variance;
+        final double[][] kernel   = this.kernel;
         for(int trainingIndexLv1 = -1, trainingSize = this.training.length, parameterSize = this.parameter.getParameterSize(); ++trainingIndexLv1 < trainingSize; )
         {
             final double[] trainingX = this.training[trainingIndexLv1].getParameterComponent().getParameter();
@@ -188,8 +163,10 @@ public class SVM
 
     private void generateOneAgainstAll()
     {
-        final StrokeData[] training = this.training;
-        ArrayList<Integer> trainingNumber = new ArrayList<>(this.training.length);
+        final StrokeData[]  training       = this.training;
+        ArrayList<Integer>  trainingNumber = new ArrayList<>(this.training.length);
+        LinkedList<Integer> positiveClass  = new LinkedList<>();
+        LinkedList<Integer> negativeClass  = new LinkedList<>();
 
         /*
         * Generate Training Index
@@ -204,6 +181,9 @@ public class SVM
         * */
         for(int oaaLevel = -1, oaaSize = this.oneAgainstAlls.length; ++oaaLevel < oaaSize; )
         {
+            positiveClass.clear();
+            negativeClass.clear();
+
             this.oneAgainstAlls[oaaLevel] = new OneAgainstAll(this.training.length);
             this.oneAgainstAlls[oaaLevel].setAllowedData(trainingNumber.stream().mapToInt(Integer::valueOf).toArray());
 
@@ -216,13 +196,18 @@ public class SVM
                 if(training[dataIndex].getMetadata().getStatus() == oaaLevel)
                 {
                     clazz[dataIndex] = 1;
+                    positiveClass.add(dataIndex);
                     dataNumberIt.remove();
                 }
                 else
                 {
                     clazz[dataIndex] = -1;
+                    negativeClass.add(dataIndex);
                 }
             }
+
+            this.oneAgainstAlls[oaaLevel].setPositiveClassAllowedData(positiveClass.stream().mapToInt(Integer::valueOf).toArray());
+            this.oneAgainstAlls[oaaLevel].setNegativeClassAllowedData(negativeClass.stream().mapToInt(Integer::valueOf).toArray());
         }
     }
 
@@ -232,7 +217,7 @@ public class SVM
         /*
         * Create temporary calculation
         * */
-        final double[][] kernel = this.kernel;
+        final double[][] kernel          = this.kernel;
         final double[][] tempCalculation = new double[this.training.length][this.training.length];
         for(int kernelIndexLv1 = -1, kernelSize = kernel.length; ++kernelIndexLv1 < kernelSize; )
         {
@@ -268,7 +253,7 @@ public class SVM
     {
         for(final OneAgainstAll oaa : this.oneAgainstAlls)
         {
-            int indexPlus = oaa.findGreatestMultiplierIndexByClassification(1);
+            int indexPlus  = oaa.findGreatestMultiplierIndexByClassification(1);
             int indexMinus = oaa.findGreatestMultiplierIndexByClassification(-1);
             try
             {
