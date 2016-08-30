@@ -9,10 +9,10 @@ import database.sqlite.DBComponent;
  */
 public abstract class DatasetBuilder<TDataset extends Dataset, TDatasetConverterEncoder extends DatasetConverter<?>, TDatasetConverterDecoder extends DatasetConverter<?>>
 {
-    protected final TDataset dataset;
+    protected final TDataset                 dataset;
     protected final TDatasetConverterEncoder encoder;
     protected final TDatasetConverterDecoder decoder;
-    protected final DBComponent dbComponent;
+    protected final DBComponent              dbComponent;
 
     public DatasetBuilder(TDataset dataset, TDatasetConverterEncoder encoder, TDatasetConverterDecoder decoder)
     {

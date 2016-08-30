@@ -4,7 +4,6 @@ import dataset.component.Parameter;
 import dataset.component.Status;
 import dataset.component.Type;
 import dataset.component.stroke.StrokeData;
-
 import java.util.Arrays;
 
 /**
@@ -16,9 +15,9 @@ public class Dataset
 {
     private StrokeData[] training;
     private StrokeData[] testing;
-    private Type[] types;
-    private Status[] statuses;
-    private Parameter[] parameter;
+    private Type[]       types;
+    private Status[]     statuses;
+    private Parameter[]  parameter;
 
     public Dataset()
     {
