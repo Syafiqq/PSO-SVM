@@ -1,6 +1,6 @@
-package algorithm.svm.test;
+package algorithm.svm.component.test;
 
-import algorithm.svm.Parameter;
+import algorithm.svm.component.Parameter;
 import org.junit.Test;
 
 /**
