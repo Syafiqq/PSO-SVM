@@ -38,12 +38,10 @@ public class PSOTest
     @Parameterized.Parameter
     private DatasetGenerator                                  generator;
 
-    @Before
+    @SuppressWarnings("Duplicates") @Before
     public void initialize()
     {
         Main.getMySqliteProperties();
-
-
         this.dataset = new Dataset();
         this.encoder = new DatasetConverter<>();
         this.decoder = new DatasetConverter<>();
