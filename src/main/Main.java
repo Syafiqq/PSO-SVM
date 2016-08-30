@@ -17,23 +17,29 @@ public class Main
     private static void releaseSetting()
     {
         final DBProperties properties = DBProperties.getInstance();
-        properties.url = "jdbc:sqlite:"+System.getProperty("user.dir")+"/db/stroke.mcrypt";
+        properties.url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/db/stroke.mcrypt";
     }
 
     private static void debugSetting()
     {
-        Main.debug_002();
+        Main.release_001();
     }
 
     private static void debug_001()
     {
         final DBProperties properties = DBProperties.getInstance();
-        properties.url = "jdbc:sqlite:"+System.getProperty("user.dir")+"/db/stroke_test01.mcrypt";
+        properties.url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/db/stroke_test01.mcrypt";
     }
 
     private static void debug_002()
     {
         final DBProperties properties = DBProperties.getInstance();
-        properties.url = "jdbc:sqlite:"+System.getProperty("user.dir")+"/db/stroke_test02.mcrypt";
+        properties.url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/db/stroke_test02.mcrypt";
+    }
+
+    private static void release_001()
+    {
+        final DBProperties properties = DBProperties.getInstance();
+        properties.url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/db/stroke_release01.mcrypt";
     }
 }
