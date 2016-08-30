@@ -7,7 +7,7 @@ package dataset.component.stroke;
  */
 public class StrokeData
 {
-    private final StrokeMetadata metadata;
+    private final StrokeMetadata  metadata;
     private final StrokeParameter parameter;
 
     public StrokeData(double age, double cholesterol, double hdl, double ldl, double triglyceride, int status)
