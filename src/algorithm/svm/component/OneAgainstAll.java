@@ -1,6 +1,7 @@
-package algorithm.svm;
+package algorithm.svm.component;
 
 import com.sun.istack.internal.NotNull;
+import java.util.Arrays;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -10,13 +11,13 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class OneAgainstAll
 {
-    private final int[] clazz;
+    private final int[]      clazz;
     private final double[][] matrixD;
-    private final double[] multiplier;
-    private int[] allowedData;
-    private double bias;
-    private int classPositiveInitiate;
-    private int classNegativeInitiate;
+    private final double[]   multiplier;
+    private       int[]      allowedData;
+    private       double     bias;
+    private       int[]      positiveClassAllowedData;
+    private       int[]      negativeClassAllowedData;
 
 
     public OneAgainstAll(int dataSize)
@@ -26,13 +27,13 @@ public class OneAgainstAll
         this.multiplier = new double[dataSize];
         this.allowedData = null;
         this.bias = 0.0;
-        this.classPositiveInitiate = -1;
-        this.classNegativeInitiate = -1;
+        this.positiveClassAllowedData = null;
+        this.negativeClassAllowedData = null;
     }
 
     public void calculateMatrixD(@NotNull final double[][] precalculatedKernel)
     {
-        final int[] clazz = this.clazz;
+        final int[]      clazz   = this.clazz;
         final double[][] matrixD = this.matrixD;
         for(final int kernelIndexLv1 : this.allowedData)
         {
@@ -73,53 +74,35 @@ public class OneAgainstAll
         this.bias = bias;
     }
 
-    public int getClassPositiveInitiate()
+    public void setPositiveClassAllowedData(int[] positiveClassAllowedData)
     {
-        return classPositiveInitiate;
+        this.positiveClassAllowedData = positiveClassAllowedData;
     }
 
-    public void setClassPositiveInitiate(int classPositiveInitiate)
+    public void setNegativeClassAllowedData(int[] negativeClassAllowedData)
     {
-        this.classPositiveInitiate = classPositiveInitiate;
-    }
-
-    public int getClassNegativeInitiate()
-    {
-        return classNegativeInitiate;
-    }
-
-    public void setClassNegativeInitiate(int classNegativeInitiate)
-    {
-        this.classNegativeInitiate = classNegativeInitiate;
+        this.negativeClassAllowedData = negativeClassAllowedData;
     }
 
     public void learnMultiplier(int iterationMax, double learningRate, double constantCost)
     {
-        //this.resetMultiplier();
+        Arrays.fill(this.multiplier, 0.0);
         for(int currentIteration = -1; ++currentIteration < iterationMax; )
         {
             for(final int dataIndex : this.allowedData)
             {
                 final double multiplier = this.multiplier[dataIndex];
-                double value = calculateError(multiplier, dataIndex);
+                double       value      = calculateError(multiplier, dataIndex);
                 value = borderingMultiplier(value, multiplier, learningRate, constantCost);
                 this.multiplier[dataIndex] += value;
             }
         }
     }
 
-    private void resetMultiplier()
-    {
-        for(final int dataIndex : this.allowedData)
-        {
-            this.multiplier[dataIndex] = 0.0;
-        }
-    }
-
     private double calculateError(double multiplier, int multiplierIndex)
     {
         final double[] matrixD = this.matrixD[multiplierIndex];
-        double value = 0;
+        double         value   = 0;
         for(final int dataIndex : this.allowedData)
         {
             value += (multiplier * matrixD[dataIndex]);
@@ -139,13 +122,13 @@ public class OneAgainstAll
 
     public int findGreatestMultiplierIndexByClassification(int classification)
     {
-        final int[] clazz = this.clazz;
+        final int[]    allowedData = classification == 1 ? this.positiveClassAllowedData : this.negativeClassAllowedData;
         final double[] multipliers = this.multiplier;
-        double multiplier = Float.MIN_VALUE;
-        int index = -1;
-        for(int dataIndex : this.allowedData)
+        double         multiplier  = multipliers[allowedData[0]];
+        int            index       = allowedData[0];
+        for(int dataIndex : allowedData)
         {
-            if((clazz[dataIndex] == classification) && (multipliers[dataIndex] > multiplier))
+            if(multipliers[dataIndex] > multiplier)
             {
                 index = dataIndex;
                 multiplier = multipliers[dataIndex];
@@ -156,7 +139,7 @@ public class OneAgainstAll
 
     public void calculateBias(final double[] positiveSets, final double[] negativeSets)
     {
-        final int[] clazz = this.clazz;
+        final int[]    clazz       = this.clazz;
         final double[] multipliers = this.multiplier;
 
         double bias = 0.0;
@@ -170,8 +153,8 @@ public class OneAgainstAll
     public int doClassify(final double[] kernelTesting)
     {
         final double[] multiplier = this.multiplier;
-        final int[] clazz = this.clazz;
-        double value = this.bias;
+        final int[]    clazz      = this.clazz;
+        double         value      = this.bias;
         for(final int dataIndex : this.allowedData)
         {
             value += (multiplier[dataIndex] * clazz[dataIndex] * kernelTesting[dataIndex]);
