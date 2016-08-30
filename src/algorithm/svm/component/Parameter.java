@@ -1,4 +1,4 @@
-package algorithm.svm;
+package algorithm.svm.component;
 
 /**
  * Created by Muhammad Syafiq on 8/18/2016.
@@ -7,12 +7,12 @@ package algorithm.svm;
  */
 public class Parameter
 {
-    private final int parameterSize;
-    private final int classTotal;
-    private final int multiplierIteration;
-    private double augmentingFactor;
-    private double learningRate;
-    private double constantCost;
+    private final int    parameterSize;
+    private final int    classTotal;
+    private final int    multiplierIteration;
+    private       double augmentingFactor;
+    private       double learningRate;
+    private       double constantCost;
 
     public Parameter(double augmentingFactor, double learningRate, double constantCost, int parameterSize, int classTotal, int multiplierIteration)
     {
