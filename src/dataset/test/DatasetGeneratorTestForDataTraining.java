@@ -3,13 +3,12 @@ package dataset.test;
 import dataset.DatasetGenerator;
 import dataset.component.core.Dataset;
 import dataset.component.core.DatasetConverter;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import main.Main;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 
 /**
  * Created by Muhammad Syafiq on 8/12/2016.
@@ -19,13 +18,13 @@ import java.util.LinkedHashMap;
 @SuppressWarnings("Duplicates") public class DatasetGeneratorTestForDataTraining
 {
     @Parameterized.Parameter
-    private Dataset dataset;
+    private Dataset                                           dataset;
     @Parameterized.Parameter
     private DatasetConverter<LinkedHashMap<Integer, Integer>> encoder;
     @Parameterized.Parameter
     private DatasetConverter<LinkedHashMap<Integer, Integer>> decoder;
     @Parameterized.Parameter
-    private DatasetGenerator generator;
+    private DatasetGenerator                                  generator;
 
     @Before
     public void initialize()
