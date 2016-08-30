@@ -7,7 +7,6 @@ import dataset.component.core.Dataset;
 import dataset.component.core.DatasetBuilder;
 import dataset.component.core.DatasetConverter;
 import dataset.component.stroke.StrokeData;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -48,6 +47,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
          * Get Data Testing Size
          * */
         String query = "SELECT data.status AS 'id', COUNT (data.ROWID) AS 'count' FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Testing' LIMIT 1) ORDER BY data.status ASC";
+        //String query = "SELECT data.status AS 'id', COUNT (data.ROWID) AS 'count' FROM data";
         int size = -1;
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
@@ -60,9 +60,9 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final StrokeData[] testing = new StrokeData[size];
-        final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
-        final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
+        final StrokeData[]                    testing       = new StrokeData[size];
+        final LinkedHashMap<Integer, Integer> encoder       = new LinkedHashMap<>(size);
+        final LinkedHashMap<Integer, Integer> decoder       = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> statusEncoder = super.encoder.getStatus();
 
         final Parameter[] parameters = this.dataset.getParameter();
@@ -71,6 +71,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
          * Get Data Testing
          * */
         query = "SELECT data.ROWID AS 'id', * FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Testing' LIMIT 1) ORDER BY data.ROWID ASC";
+        //query = "SELECT data.ROWID AS 'id', * FROM data ORDER BY data.ROWID ASC";
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
@@ -98,7 +99,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
          * Get Data Training Size
          * */
         String query = "SELECT data.status AS 'id', COUNT (data.ROWID) AS 'count' FROM data WHERE data.type = (SELECT DISTINCT type.ROWID FROM type WHERE type.name = 'Training' LIMIT 1) ORDER BY data.status ASC";
-        int size = -1;
+        int    size  = -1;
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
@@ -110,9 +111,9 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final StrokeData[] trainings = new StrokeData[size];
-        final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
-        final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
+        final StrokeData[]                    trainings     = new StrokeData[size];
+        final LinkedHashMap<Integer, Integer> encoder       = new LinkedHashMap<>(size);
+        final LinkedHashMap<Integer, Integer> decoder       = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> statusEncoder = super.encoder.getStatus();
 
         final Parameter[] parameters = this.dataset.getParameter();
@@ -148,7 +149,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
          * Get Parameter Size
          * */
         String query = "SELECT COUNT (ROWID) AS 'count' FROM parameter";
-        int size = -1;
+        int    size  = -1;
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
@@ -160,9 +161,9 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final Parameter[] parameters = new Parameter[size];
-        final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
-        final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
+        final Parameter[]                     parameters = new Parameter[size];
+        final LinkedHashMap<Integer, Integer> encoder    = new LinkedHashMap<>(size);
+        final LinkedHashMap<Integer, Integer> decoder    = new LinkedHashMap<>(size);
 
         /*
          * Get Status
@@ -195,7 +196,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
          * Get Status Size
          * */
         String query = "SELECT COUNT (ROWID) AS 'count' FROM status";
-        int size = -1;
+        int    size  = -1;
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
@@ -207,9 +208,9 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final Status[] statuses = new Status[size];
-        final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
-        final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
+        final Status[]                        statuses = new Status[size];
+        final LinkedHashMap<Integer, Integer> encoder  = new LinkedHashMap<>(size);
+        final LinkedHashMap<Integer, Integer> decoder  = new LinkedHashMap<>(size);
 
         /*
          * Get Status
@@ -242,7 +243,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
          * Get Type Size
          * */
         String query = "SELECT COUNT (ROWID) AS 'count' FROM type";
-        int size = -1;
+        int    size  = -1;
         try(final Statement statement = this.dbComponent.connection.createStatement();
             final ResultSet resultSet = statement.executeQuery(query))
         {
@@ -254,7 +255,7 @@ public class DatasetGenerator extends DatasetBuilder<Dataset, DatasetConverter<L
             System.exit(-1);
         }
 
-        final Type[] types = new Type[size];
+        final Type[]                          types   = new Type[size];
         final LinkedHashMap<Integer, Integer> encoder = new LinkedHashMap<>(size);
         final LinkedHashMap<Integer, Integer> decoder = new LinkedHashMap<>(size);
 
