@@ -13,7 +13,7 @@ public class StrokeParameter
 
     public StrokeParameter(double age, double cholesterol, double hdl, double ldl, double triglyceride)
     {
-        this.parameter = new double[]{age, cholesterol, hdl, ldl, triglyceride};
+        this.parameter = new double[] {age, cholesterol, hdl, ldl, triglyceride};
     }
 
     public StrokeParameter(final double[] parameter)
