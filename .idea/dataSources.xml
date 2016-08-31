@@ -13,5 +13,17 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/stroke_test01.mcrypt</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="Sqlite (Xerial) - stroke_release01.mcrypt" uuid="f7af4ca3-53d6-4fd5-a835-5323de7a16f8">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/stroke_release01.mcrypt</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Sqlite (Xerial) - stroke_test02.mcrypt" uuid="6757c04c-05dc-4c98-9cad-cba7261c4402">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/stroke_test02.mcrypt</jdbc-url>
+    </data-source>
   </component>
 </project>
